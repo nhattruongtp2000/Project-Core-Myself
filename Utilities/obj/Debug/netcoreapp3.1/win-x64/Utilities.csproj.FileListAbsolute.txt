@@ -1,0 +1,9 @@
+D:\Visual project\Iden2\Utilities\bin\Debug\netcoreapp3.1\win-x64\Utilities.deps.json
+D:\Visual project\Iden2\Utilities\bin\Debug\netcoreapp3.1\win-x64\Utilities.dll
+D:\Visual project\Iden2\Utilities\bin\Debug\netcoreapp3.1\win-x64\Utilities.pdb
+D:\Visual project\Iden2\Utilities\obj\Debug\netcoreapp3.1\win-x64\Utilities.csprojAssemblyReference.cache
+D:\Visual project\Iden2\Utilities\obj\Debug\netcoreapp3.1\win-x64\Utilities.AssemblyInfoInputs.cache
+D:\Visual project\Iden2\Utilities\obj\Debug\netcoreapp3.1\win-x64\Utilities.AssemblyInfo.cs
+D:\Visual project\Iden2\Utilities\obj\Debug\netcoreapp3.1\win-x64\Utilities.csproj.CoreCompileInputs.cache
+D:\Visual project\Iden2\Utilities\obj\Debug\netcoreapp3.1\win-x64\Utilities.dll
+D:\Visual project\Iden2\Utilities\obj\Debug\netcoreapp3.1\win-x64\Utilities.pdb

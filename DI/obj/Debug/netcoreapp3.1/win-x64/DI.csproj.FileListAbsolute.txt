@@ -1,0 +1,15 @@
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\DI.deps.json
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\DI.dll
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\DI.pdb
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\Data.dll
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\Utilities.dll
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\ViewModel.dll
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\Data.pdb
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\ViewModel.pdb
+D:\Visual project\Iden2\DI\bin\Debug\netcoreapp3.1\win-x64\Utilities.pdb
+D:\Visual project\Iden2\DI\obj\Debug\netcoreapp3.1\win-x64\DI.AssemblyInfoInputs.cache
+D:\Visual project\Iden2\DI\obj\Debug\netcoreapp3.1\win-x64\DI.AssemblyInfo.cs
+D:\Visual project\Iden2\DI\obj\Debug\netcoreapp3.1\win-x64\DI.csproj.CoreCompileInputs.cache
+D:\Visual project\Iden2\DI\obj\Debug\netcoreapp3.1\win-x64\DI.csproj.CopyComplete
+D:\Visual project\Iden2\DI\obj\Debug\netcoreapp3.1\win-x64\DI.dll
+D:\Visual project\Iden2\DI\obj\Debug\netcoreapp3.1\win-x64\DI.pdb
