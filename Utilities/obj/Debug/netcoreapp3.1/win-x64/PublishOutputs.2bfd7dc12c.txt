@@ -1,3 +1,0 @@
-D:\Visual project\Iden2\Utilities\bin\Debug\netcoreapp3.1\win-x64\publish\Utilities.dll
-D:\Visual project\Iden2\Utilities\bin\Debug\netcoreapp3.1\win-x64\publish\Utilities.deps.json
-D:\Visual project\Iden2\Utilities\bin\Debug\netcoreapp3.1\win-x64\publish\Utilities.pdb
