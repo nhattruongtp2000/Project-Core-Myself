@@ -17,36 +17,32 @@ namespace Web.Areas.Admin.Controllers
         {
             _IorderRepository = iorderRepository;
         }
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
         {
-           
-            var c = await _IorderRepository.GetAll(page);
+            var c = await _IorderRepository.GetAll();
             return View(c);
         }
 
-        public async Task<IActionResult> Details(string IdOrder) 
+        public async Task<IActionResult> Details(string IdOrder,int IdProduct) 
         {
             var status = new List<string>()
             {
                 "Process", "Delivering","Complete"
-            };
+            } ;
             ViewBag.Status = status.Select(x => new SelectListItem()
             {
-                Text = x.ToString(),
-                Value = x
+                Text=x.ToString(),
+                Value=x
             });
-
-            ViewBag.GetStatus =await _IorderRepository.GetStatus(IdOrder);
-
-            var c = await _IorderRepository.GetDetails(IdOrder);
+            var c = await _IorderRepository.GetDetails(IdOrder,IdProduct);
             return View(c);
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Change(string IdOrder, string x)
+        public async Task<IActionResult> Change(string IdOrder, int IdProduct, string x)
         {
-            var c = await _IorderRepository.ChangeStatusDetails(IdOrder, x);
+            var c = await _IorderRepository.ChangeStatusDetails(IdOrder, IdProduct, x);
             return Ok();
         }
     }

@@ -9,6 +9,5 @@ namespace ViewModel.ViewModels
         public int Quantity { get; set; }
 
         public ProductVm Product {get;set;}
-
     }
 }

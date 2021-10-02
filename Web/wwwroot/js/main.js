@@ -2,7 +2,8 @@ jQuery(document).ready(function($){
     
     // jQuery sticky Menu
     
-	$(".area").sticky({topSpacing:0});
+	$(".mainmenu-area").sticky({topSpacing:0});
+    
     
     $('.product-carousel').owlCarousel({
         loop:true,

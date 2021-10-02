@@ -10,15 +10,17 @@ namespace ViewModel.ViewModels
     {
         public string IdOrder { get; set; }
 
-        public string ProductName { get; set; }
+        public int IdProduct { get; set; }
 
         public int Quality { get; set; }
 
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         public string PhotoReview { get; set; }
 
-        public Status Status { get; set; }
+        public DateTime DateOrder { get; set; }
+
+        public Status StatusDetails { get; set; } 
 
     }
 }

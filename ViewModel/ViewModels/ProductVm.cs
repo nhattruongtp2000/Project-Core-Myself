@@ -13,11 +13,7 @@ namespace ViewModel.ViewModels
         public string ProductName { get; set; }
 
         public DateTime DateAccept { get; set; }
-        public decimal Price { get; set; }
-
-        public int Quantity { get; set; }
-
-        public string Alias { get; set; }
+        public int Price { get; set; }
 
         public bool UseVoucher { get; set; }
 

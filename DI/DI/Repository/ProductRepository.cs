@@ -1,17 +1,16 @@
-﻿using Data.Data;
-using Data.DB;
-using DI.DI.Interace;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using ViewModel;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
+using DI.DI.Interace;
+using Data.DB;
 using ViewModel.ViewModels;
-using X.PagedList;
+using Data.Data;
+using Microsoft.AspNetCore.Http;
+using ViewModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace DI.DI.Repository
 {
@@ -21,7 +20,7 @@ namespace DI.DI.Repository
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public ProductRepository(Iden2Context iden2Context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IHttpContextAccessor httpContextAccessor)
+        public ProductRepository (Iden2Context iden2Context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,IHttpContextAccessor httpContextAccessor)
         {
             _iden2Context = iden2Context;
             _userManager = userManager;
@@ -31,7 +30,7 @@ namespace DI.DI.Repository
 
         public async Task<int> Create(ProductCreateVm request)
         {
-            var c = await UpLoadFile(request.PhotoReview);
+            var c =await UpLoadFile(request.PhotoReview);
 
             var product = new Product()
             {
@@ -39,21 +38,12 @@ namespace DI.DI.Repository
                 IdBrand = request.IdBrand,
                 ProductName = request.ProductName,
                 UseVoucher = request.UseVoucher,
-                IdCategory = request.IdCategory,
-                IsFree = false,
-                Price = request.Price,
-                PhotoReview = c,
-                Content = request.Content,
-                Description = request.Description,
-                Alias = request.Alias,
-                Keyword = request.Keyword,
-                Quantity = request.Quantity,
-                Title = request.Title,
-                IsGift = request.IsGift,
-                IdProductGiveTo = request.IdProductGiveTo
-
+                IdCategory=request.IdCategory,
+                IsFree=false,
+                Price=request.Price,
+                PhotoReview = c
             };
-            _iden2Context.Products.Add(product);
+             _iden2Context.Products.Add(product);
             return await _iden2Context.SaveChangesAsync();
         }
 
@@ -64,7 +54,7 @@ namespace DI.DI.Repository
             return await _iden2Context.SaveChangesAsync();
         }
 
-        public async Task<int> Edit(int IdProduct, ProductVm request)
+        public async Task<int> Edit(int IdProduct,ProductVm request)
         {
             var product = await _iden2Context.Products.FirstOrDefaultAsync(x => x.IdProduct == IdProduct);
 
@@ -75,15 +65,15 @@ namespace DI.DI.Repository
 
             await _iden2Context.SaveChangesAsync();
             return product.IdBrand;
-
+           
         }
 
         public async Task<List<ProductVm>> GetAll()
         {
             var products = _iden2Context.Products;
+        
 
-
-            var a = await products.Select(x => new ProductVm()
+            var a =await products.Select(x => new ProductVm()
             {
                 IdProduct = x.IdProduct,
                 DateAccept = x.DateAccept,
@@ -91,45 +81,19 @@ namespace DI.DI.Repository
                 ProductName = x.ProductName,
                 UseVoucher = x.UseVoucher,
                 PhotoReview = x.PhotoReview,
-                IdCategory = x.IdCategory,
-                IsFree = x.IsFree,
-                Price = x.Price,
-                Alias = x.Alias,
-                Quantity = x.Quantity
+                IdCategory=x.IdCategory,
+                IsFree=x.IsFree,
+                Price=x.Price
             }).ToListAsync();
             return a;
         }
 
-        public async Task<IPagedList<ProductVm>> GetProductPerCategory(int IdCategory, int? page)
-        {
-            var pageNumber = page ?? 1;
-            int pageSize = 9;
-
-            var x = _iden2Context.Products.Where(x => x.IdCategory == IdCategory);
-            var a = await x.Select(x => new ProductVm()
-            {
-                IdProduct = x.IdProduct,
-                DateAccept = x.DateAccept,
-                IdBrand = x.IdBrand,
-                ProductName = x.ProductName,
-                UseVoucher = x.UseVoucher,
-                PhotoReview = x.PhotoReview,
-                IdCategory = x.IdCategory,
-                IsFree = x.IsFree,
-                Price = x.Price,
-                Alias = x.Alias
-            }).ToPagedListAsync(pageNumber, pageSize);
-            return a;
-        }
-
-        public async Task<IPagedList<ProductVm>> GetAll2(int? page)
+        public async Task<List<ProductVm>> GetNewProduct()
         {
             var products = _iden2Context.Products;
 
-            var pageNumber = page ?? 1;
-            int pageSize = 9;
 
-            var a = await products.Select(x => new ProductVm()
+            var a = await products.Select(x => new ProductVm() 
             {
                 IdProduct = x.IdProduct,
                 DateAccept = x.DateAccept,
@@ -137,19 +101,14 @@ namespace DI.DI.Repository
                 ProductName = x.ProductName,
                 UseVoucher = x.UseVoucher,
                 PhotoReview = x.PhotoReview,
-                IdCategory = x.IdCategory,
-                IsFree = x.IsFree,
-                Price = x.Price,
-                Alias = x.Alias,
-                Quantity = x.Quantity
-            }).ToPagedListAsync(pageNumber, pageSize);
+                Price=x.Price
+            }).OrderBy(x=>x.IdProduct).ToListAsync();
             return a;
         }
 
-
         public async Task<ProductVm> GetProduct(int IdProduct)
         {
-            var product = await _iden2Context.Products.FirstOrDefaultAsync(x => x.IdProduct == IdProduct);
+            var product =await _iden2Context.Products.FirstOrDefaultAsync(x => x.IdProduct == IdProduct);
             var a = new ProductVm()
             {
                 IdProduct = product.IdProduct,
@@ -157,49 +116,60 @@ namespace DI.DI.Repository
                 IdBrand = product.IdBrand,
                 ProductName = product.ProductName,
                 UseVoucher = product.UseVoucher,
-                IdCategory = product.IdCategory,
-                Price = product.Price,
-                Alias = product.Alias
-
+                IdCategory=product.IdCategory,
+                Price=product.Price
+                
             };
             return a;
         }
 
-
-
-        public async Task<IPagedList<ProductVm>> Search(string key, int? page)
+        public async Task<List<ProductVm>> GetProductPerCategory(int IdCategory)
         {
-            var products = _iden2Context.Products.Where(x => x.ProductName.Contains(key));
-            var pageNumber = page ?? 1;
-            int pageSize = 9;
 
-            var a = await products.Select(x => new ProductVm()
+            var x = _iden2Context.Products.Where(x => x.IdCategory == IdCategory);
+            var a = await x.Select(x => new ProductVm()
+            {
+                IdProduct = x.IdProduct,
+                DateAccept = x.DateAccept,
+                PhotoReview = x.PhotoReview,
+                IdBrand = x.IdBrand,
+                IdCategory = x.IdCategory,
+                ProductName = x.ProductName,
+                UseVoucher = x.UseVoucher,
+                Price=x.Price
+            }).ToListAsync();
+            return a;
+        }
+
+        public async Task<List<ProductVm>> Search(string key)
+        {
+            var products =  _iden2Context.Products.Where(x => x.ProductName.Contains(key));
+
+            var a=await products.Select(x=> new ProductVm()
             {
                 IdProduct = x.IdProduct,
                 DateAccept = x.DateAccept,
                 IdBrand = x.IdBrand,
                 ProductName = x.ProductName,
                 UseVoucher = x.UseVoucher,
-                PhotoReview = x.PhotoReview,
-                IdCategory = x.IdCategory,
-                IsFree = x.IsFree,
-                Price = x.Price,
-                Alias = x.Alias
-            }).ToPagedListAsync(pageNumber, pageSize);
+                Price=x.Price,
+                IdCategory=x.IdCategory,
+                PhotoReview=x.PhotoReview
+            }).ToListAsync();
 
             return a;
         }
 
         public async Task<string> UpLoadFile(IFormFile fromFile)
         {
-            if (fromFile == null || fromFile.Length == 0)
+            if(fromFile == null || fromFile.Length == 0)
             {
-                return null;
+                return null; 
             }
 
             var path = Path.Combine("wwwroot", "Images", fromFile.FileName);
 
-            using (var stream = new FileStream(path, FileMode.Create))
+            using(var stream = new FileStream(path,FileMode.Create))
             {
                 await fromFile.CopyToAsync(stream);
             }
@@ -227,35 +197,28 @@ namespace DI.DI.Repository
                     IdProduct = IdProduct,
                     IFromFile = path.Substring(8)
                 };
-                _iden2Context.ProductPhotos.Add(b);
+                _iden2Context.ProductPhotos.Add(b);               
             }
             await _iden2Context.SaveChangesAsync();
             return 1;
         }
 
-        public async Task<ProductDetailsVm> GetProductDetail(string Alias)
+        public async Task<ProductDetailsVm> GetProductDetail(int IdProduct)
         {
-            var k = _iden2Context.Products.Where(x => x.Alias == Alias).FirstOrDefault();
-            var IdProduct = k.IdProduct;
-
             var photos = _iden2Context.ProductPhotos.Where(x => x.IdProduct == IdProduct);
-            List<string> linkPhotos = await photos.Select(x => x.IFromFile).ToListAsync();
+            List<string> linkPhotos =await photos.Select(x => x.IFromFile).ToListAsync();
 
             var product = await _iden2Context.Products.FirstOrDefaultAsync(x => x.IdProduct == IdProduct);
-            var commemt = _iden2Context.Comments.Where(x => x.IdProduct == IdProduct);
-            var commentvm = await commemt.Select(x => new CommentVm()
+            var commemt =  _iden2Context.Comments.Where(x => x.IdProduct == IdProduct);
+            var commentvm = await commemt.Select(x => new CommentVm() 
             {
-                Content = x.Content,
-                IdProduct = x.IdProduct,
-                UserName = x.UserName
-
+            Content=x.Content,
+            IdProduct=x.IdProduct,
+            UserName=x.UserName
+             
             }).ToListAsync();
 
-
-
-            var relateProduct = await RelatedProduct(product.IdCategory, IdProduct);
-
-            var MaybeLikes = await MaybeLike(product.IdBrand, IdProduct);
+            var relateProduct = await RelatedProduct(product.IdBrand,IdProduct);
 
             var a = new ProductDetailsVm()
             {
@@ -267,23 +230,16 @@ namespace DI.DI.Repository
                 IdCategory = product.IdCategory,
                 PhotoReview = product.PhotoReview,
                 ListPhotos = linkPhotos,
-                RelatedProducts = relateProduct,
-                Price = product.Price,
-                Comments = commentvm,
-                Description = product.Description,
-                MaybeLike = MaybeLikes,
-                Alias = product.Alias
+                RelatedProducts=relateProduct,
+                Price=product.Price,
+                Comments=commentvm
             };
             return a;
         }
 
-        public async Task<IPagedList<ProductVm>> Filters(int pricemin, int pricemax, int? page)
+        public async Task<List<ProductVm>> Filters(int pricemin, int pricemax)
         {
             var a = _iden2Context.Products.Where(x => x.Price >= pricemin && x.Price <= pricemax);
-
-            var pageNumber = page ?? 1;
-            int pageSize = 9;
-
             var b = await a.Select(x => new ProductVm()
             {
                 IdProduct = x.IdProduct,
@@ -291,19 +247,15 @@ namespace DI.DI.Repository
                 IdBrand = x.IdBrand,
                 ProductName = x.ProductName,
                 UseVoucher = x.UseVoucher,
-                PhotoReview = x.PhotoReview,
-                IdCategory = x.IdCategory,
-                IsFree = x.IsFree,
-                Price = x.Price,
-                Alias = x.Alias
-            }).ToPagedListAsync(pageNumber, pageSize);
+                PhotoReview = x.PhotoReview
+            }).ToListAsync();
             return b;
 
         }
 
-        public async Task<int> AddComment(int IdProduct, string Content)
+        public async Task<int> AddComment(int IdProduct,string Content)
         {
-            var User = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            var User =await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             string UserName = User.UserName;
             var comment = new Comment()
             {
@@ -317,13 +269,9 @@ namespace DI.DI.Repository
             return await _iden2Context.SaveChangesAsync();
         }
 
-        public async Task<IPagedList<ProductVm>> GetProductPerBrand(int IdBrand, int? page)
+        public async Task<List<ProductVm>> GetProductPerBrand(int IdBrand)
         {
             var x = _iden2Context.Products.Where(x => x.IdBrand == IdBrand);
-
-            var pageNumber = page ?? 1;
-            int pageSize = 9;
-
             var a = await x.Select(x => new ProductVm()
             {
                 IdProduct = x.IdProduct,
@@ -333,33 +281,14 @@ namespace DI.DI.Repository
                 IdCategory = x.IdCategory,
                 ProductName = x.ProductName,
                 UseVoucher = x.UseVoucher,
-                Price = x.Price,
-                Alias = x.Alias
-            }).ToPagedListAsync(pageNumber, pageSize);
-            return a;
-        }
-
-        public async Task<List<ProductVm>> RelatedProduct(int IdCategory, int IdProduct)
-        {
-            var x = _iden2Context.Products.Where(x => x.IdCategory == IdCategory && x.IdProduct != IdProduct);
-            var a = await x.Select(x => new ProductVm()
-            {
-                IdProduct = x.IdProduct,
-                DateAccept = x.DateAccept,
-                PhotoReview = x.PhotoReview,
-                IdBrand = x.IdBrand,
-                IdCategory = x.IdCategory,
-                ProductName = x.ProductName,
-                UseVoucher = x.UseVoucher,
-                Price = x.Price,
-                Alias = x.Alias
+                Price = x.Price
             }).ToListAsync();
             return a;
         }
 
-        public async Task<List<ProductVm>> MaybeLike(int IdBrand, int IdProduct)
+        public async Task<List<ProductVm>> RelatedProduct(int IdBrand,int IdProduct)
         {
-            var x = _iden2Context.Products.Where(x => x.IdBrand == IdBrand && x.IdProduct != IdProduct);
+            var x = _iden2Context.Products.Where(x => x.IdBrand == IdBrand && x.IdProduct!=IdProduct);
             var a = await x.Select(x => new ProductVm()
             {
                 IdProduct = x.IdProduct,
@@ -369,40 +298,10 @@ namespace DI.DI.Repository
                 IdCategory = x.IdCategory,
                 ProductName = x.ProductName,
                 UseVoucher = x.UseVoucher,
-                Price = x.Price,
-                Alias = x.Alias
+                Price = x.Price
             }).ToListAsync();
             return a;
         }
-
-        public async Task<IPagedList<ProductVm>> GetProductPerMutilpleBrandWithCategory(int IdCategory, int pricemin, int pricemax, int IdBrand1, int IdBrand2, int IdBrand3, int IdBrand4, int IdBrand5, int IdBrand6, int? page)
-        {
-
-            var x = _iden2Context.Products.Where(x => x.IdBrand == IdBrand1 || x.IdBrand == IdBrand2 || x.IdBrand == IdBrand3 || x.IdBrand == IdBrand4 || x.IdBrand == IdBrand5 || x.IdBrand == IdBrand6);
-            if (pricemax != 0)
-            {
-                x = x.Where(x => x.Price >= pricemin && x.Price <= pricemax);
-            }
-            x = x.Where(x => x.IdCategory == IdCategory);
-            var pageNumber = page ?? 1;
-            int pageSize = 9;
-
-            var a = await x.Select(x => new ProductVm()
-            {
-                IdProduct = x.IdProduct,
-                DateAccept = x.DateAccept,
-                PhotoReview = x.PhotoReview,
-                IdBrand = x.IdBrand,
-                IdCategory = x.IdCategory,
-                ProductName = x.ProductName,
-                UseVoucher = x.UseVoucher,
-                Price = x.Price,
-                Alias = x.Alias
-            }).ToPagedListAsync(pageNumber, pageSize);
-            return a;
-        }
-
-
 
 
 

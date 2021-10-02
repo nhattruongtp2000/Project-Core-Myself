@@ -4,21 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ViewModel.ViewModels;
-using X.PagedList;
 
 namespace DI.DI.Interace
 {
     public interface IOrderRepository
     {
-        Task<IPagedList<OrdersVm>> GetAll(int? page);
+        Task<List<OrdersVm>> GetAll();
 
-        Task<List<OrderDetailsVm>> GetDetails(string IdOrder);
+        Task<OrderDetailsVm> GetDetails(string IdOrder,int IdProduct);
 
-        Task<int> ChangeStatusDetails(string IdOrder,string x);
+        Task<int> ChangeStatusDetails(string IdOrder, int IdProduct,string x);
 
-        Task<string> GetStatus(string IdOrder);
-
-        Task<IPagedList<OrdersVm>> OrderHistory(string IdUser, int? page);
+        
         
     }
 }

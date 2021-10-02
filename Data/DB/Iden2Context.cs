@@ -16,7 +16,6 @@ namespace Data.DB
         {
         }
 
-        public DbSet<IpAccess> IpAccesses { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -26,14 +25,13 @@ namespace Data.DB
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Access> Accesses { get; set; }
         public DbSet<Slide> Slides { get; set; }
 
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ProductPhoto> ProductPhotos { get; set; }
-
-        public DbSet<Voucher> Vouchers { get; set; }
 
 
 
@@ -50,8 +48,6 @@ namespace Data.DB
                 }
             }
             modelBuilder.ApplyConfiguration(new OrderDetailsConfig());
-
-            modelBuilder.Entity<Product>().HasIndex(x => x.Alias).IsUnique();
 
         }
 

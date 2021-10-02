@@ -16,11 +16,9 @@ namespace Web.Controllers
     {
 
         private readonly IContactRepository _contactRepository;
-        private readonly IAccountRepository _iaccountRepository;
-        public ContactController(IContactRepository contactRepository,IAccountRepository iaccountRepository)
+        public ContactController(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
-            _iaccountRepository = iaccountRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -63,11 +61,11 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SendEmailPromotion(string Email)
         {
-            IMailChimpManager manager = new MailChimpManager("f9cd4a4963262963827ff0e155a83b97-us6"); //Key api
-            var listId = "b3ca7ac2b7"; //key list
+            IMailChimpManager manager = new MailChimpManager("f9cd4a4963262963827ff0e155a83b97-us6");
+            var listId = "b3ca7ac2b7";
             var member = new Member { EmailAddress = Email, StatusIfNew = Status.Subscribed };
-            member.MergeFields.Add("FNAME", ""); //tên đầu
-            member.MergeFields.Add("LNAME", ""); //tên cuối
+            member.MergeFields.Add("FNAME", "");
+            member.MergeFields.Add("LNAME", "");
             ViewBag.Success = "Success";
             await manager.Members.AddOrUpdateAsync(listId, member);
             await _contactRepository.SendEmailPromotion(Email);
@@ -81,21 +79,6 @@ namespace Web.Controllers
 
             return View(mailChimpListCollection);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> SendOrderReceived(string IdOrder)
-        {
-             await _contactRepository.SendOrderReceived(IdOrder);
-            return Ok();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> SendOrderDelivered(string IdOrder)
-        {
-            await _contactRepository.SendOrderDeliveried(IdOrder);
-            return Ok();
-        }
-
     }
 }
 

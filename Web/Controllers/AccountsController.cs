@@ -12,15 +12,13 @@ using ViewModel.ViewModels;
 
 namespace Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountsController : Controller
     {
         private readonly IAccountRepository _IaccountRepository;
-        private readonly IOrderRepository _IorderRepository;
 
-        public AccountController(IAccountRepository IaccountRepository, IOrderRepository IorderRepository)
+        public AccountsController(IAccountRepository IaccountRepository)
         {
             _IaccountRepository = IaccountRepository;
-            _IorderRepository = IorderRepository;
         }
 
 
@@ -37,15 +35,15 @@ namespace Web.Controllers
             {
                 if (x != null)
                 {
-                    var confirmationLink = Url.Action(nameof(ConfirmEmail), "Accounts", new { x, email = request.Email }, Request.Scheme);
-                    _IaccountRepository.SendTo(request.Email, "Confirmation email link", confirmationLink);
+                    var confirmationLink = Url.Action(nameof(ConfirmEmail), "Accounts", new { x, email = request.UserName }, Request.Scheme);
+                    _IaccountRepository.SendTo(request.UserName, "Confirmation email link", confirmationLink);
                     return RedirectToAction(nameof(SuccessRegistration));
                 }
                 ModelState.AddModelError(string.Empty, "Invalid Login attemp");
             }
             return View(request);
         }
-            
+
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
@@ -75,7 +73,7 @@ namespace Web.Controllers
         }
 
 
-        public IActionResult Login()
+        public IActionResult Index()
         {
             return View();
         }
@@ -120,58 +118,6 @@ namespace Web.Controllers
             
         }
 
-        public async Task<IActionResult> OrderHistory(string IdUser,int? page)
-        {
-            var x = await _IorderRepository.OrderHistory(IdUser, page);
-            return View(x);
-        }
-
-        public async Task<IActionResult> OrderHistoryDetails(string IdOrder)
-        {
-            var x =await _IorderRepository.GetDetails(IdOrder);
-            return View(x);
-        }
-
-
-        public  IActionResult ChangePassword()
-        {
-            if (TempData["Change"] != null)
-            {
-                ViewBag.Change = TempData["Change"];
-            }
-            return View();
-        }
-
-
-
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordVm request)
-        {
-            string UserName = User.Identity.Name;
-
-            var x = await _IaccountRepository.ChangePassword(request,UserName);
-            if (ModelState.IsValid)
-            {
-                if (x == 1)
-                {
-                    TempData["Change"] = "Change Password Success";
-                    return RedirectToAction("ChangePassword");
-                }
-                else
-                {
-                    TempData["Change"] = "Change Password Failure ";
-                    return RedirectToAction("ChangePassword");
-                }
-            }
-            
-            return View();
-        }
-
-        public IActionResult Logout()
-        {
-            _IaccountRepository.Logout();
-            return RedirectToAction("Indexx", "Home");
-
-        }
+      
     }
 }

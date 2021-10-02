@@ -37,8 +37,6 @@
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
 }
 
-
-
 *,
 *::before,
 *::after {
@@ -71,8 +69,6 @@ hr {
   opacity: 0.25;
 }
 
-
-
 hr:not([size]) {
   height: 1px;
 }
@@ -92,14 +88,6 @@ h1, .h1 {
     font-size: 2.5rem;
   }
 }
-
-
-#total{
-    text-align:center;
-    font-size:40px;
-    font-weight:bold;
-}
-
 
 h2, .h2 {
   font-size: calc(1.325rem + 0.9vw);
